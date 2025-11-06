@@ -1,3 +1,0 @@
-# intermodalpufa
-# TonabeNet
-# imgproccompvis
