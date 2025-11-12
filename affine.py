@@ -52,19 +52,29 @@ def affine_transform_forward(img, A, b):
 
             if 0 <= x_prime_i < out_w and 0 <= y_prime_i < out_h:
                 out[y_prime_i, x_prime_i] = img[y_in, x_in]
+            
+    for y_prime_i in range(out_h):
+        for x_prime_i in range(out_w):
+            if out[y_prime_i, x_prime_i]== 0: # means it is empty
+                # here we do some interpolation
+                ... (complete this)
+                ...
+                
+        
 
     return out
 
 # ----------------------------
 #  >> Define affine parameters
 # ----------------------------
-angle = np.deg2rad(0)
+angle = np.deg2rad(45)
 scale = 1
-tx, ty = 0, 0
+tx, ty = 20, 0
 shear_coeff_x= 0
 shear_coeff_y= 0
 flip_x = 1 # eiter 1 or -1
 flip_y = 1 # eiter 1 or -1
+
 A = scale * np.array([
     [np.cos(angle)*flip_x, -np.sin(angle)+shear_coeff_x],
     [np.sin(angle)+shear_coeff_y,  np.cos(angle)*flip_y]
@@ -78,8 +88,8 @@ out = affine_transform_forward(img, A, b)
 # ----------------------------
 fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 ax[0].imshow(img)
-ax[0].set_title("Original")
+ax[0].set_title("Original image")
 ax[1].imshow(out)
-ax[1].set_title("Flipped")
+ax[1].set_title("Affine-transformed")
 
-plt.show()
+
