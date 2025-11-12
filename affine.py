@@ -25,7 +25,7 @@ def affine_transform_forward(img, A, b):
     """
     h, w = img.shape[:2]
 
-    # 1️⃣ Compute transformed corners to determine output size
+    # transformed canvas to determine output size
     corners = np.array([
         [0, 0],
         [w, 0],
@@ -40,11 +40,10 @@ def affine_transform_forward(img, A, b):
     out_w = x_max - x_min
     out_h = y_max - y_min
 
-    # 2️⃣ Prepare output canvas
     out_shape = (out_h, out_w, img.shape[2]) if img.ndim == 3 else (out_h, out_w)
     out = np.zeros(out_shape, dtype=np.uint8)
 
-    # 3️⃣ Forward mapping: loop over input pixels
+    # loop over input pixels
     for y_in in range(h):
         for x_in in range(w):
             x_prime, y_prime = A @ np.array([x_in, y_in]) + b
@@ -61,11 +60,11 @@ def affine_transform_forward(img, A, b):
 # ----------------------------
 angle = np.deg2rad(0)
 scale = 1
-tx, ty = 80, 80
+tx, ty = 0, 0
 shear_coeff_x= 0
 shear_coeff_y= 0
 flip_x = 1 # eiter 1 or -1
-flip_y = -1 # eiter 1 or -1
+flip_y = 1 # eiter 1 or -1
 A = scale * np.array([
     [np.cos(angle)*flip_x, -np.sin(angle)+shear_coeff_x],
     [np.sin(angle)+shear_coeff_y,  np.cos(angle)*flip_y]
